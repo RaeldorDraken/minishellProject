@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:55:14 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/01 19:45:55 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/01 20:42:43 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	msh_getting_commands(t_vars *vars, char **envp)
 		vars->inpcomm = msh_split(' ', vars, 0, 0);
 		if (vars->inpli != NULL)
 		{
-			//free (vars->inpli); Comentar cuando testing
+			free (vars->inpli); //Comentar cuando testing
 			vars->inpli = NULL;
 		}
 	}

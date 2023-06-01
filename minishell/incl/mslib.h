@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/01 11:34:22 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/01 20:57:29 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,20 @@
 
 # include"../libft/libft.h"
 
+typedef struct s_separator {
+	int		index;
+	char	*separator;
+	char 	*prev_token;
+	char	*next_token;
+} t_separator;
+
+typedef struct s_cmd {
+	int     index;
+	char	*cmd;
+	int     is_separator;
+	t_cmd	*next;	
+} t_cmd;
+
 typedef struct s_vars
 {
 	char	*prompt;
@@ -41,6 +55,7 @@ typedef struct s_vars
 	int 	sigexec;
 	char	**paths;
 	char	**cmd_buffer;
+	t_cmd	*cmd;
 }	t_vars;
 
 size_t	msh_maxvalue(size_t first, size_t second);
