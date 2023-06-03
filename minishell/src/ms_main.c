@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/01 20:43:11 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/03 20:00:06 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,41 @@
 
 //Global variable
 
+int	store_env_own_vars(t_vars vars, char **envp)
+{
+	int	env_length;
+
+	env_length = 0;
+	while (envp[env_length])
+		env_length++;
+	vars.own_env_vars = (char **)malloc(sizeof(char *) * env_length + 1);
+	if (!vars.own_env_vars)
+		return (0);
+	
+	vars.own_env_vars[env_length] = 0;
+	env_length = 0;
+	while (envp[env_length])
+	{
+		vars.own_env_vars[env_length] = envp[env_length];
+		env_length++;
+	}
+	// ? printing only. Delete on deploy
+	env_length = 0;
+	while (vars.own_env_vars[env_length])
+	{
+		printf("\n%d - %s",env_length, vars.own_env_vars[env_length]);
+		env_length++;
+	}
+	return (1);
+}
+
 void	msh_sigint_handler(int sig)
 {
 	if (sig != 0)
 	{
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		//rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
@@ -61,7 +89,20 @@ int	main(int ac, char **av, char **envp)
 	looping = 1;
 	g_return_status = 0;
 	msh_ignore_signals(&vars, ac, av);    //Comentar cuando testing
-	msh_set_vars(&vars, "msh %  ", envp);
+	msh_set_vars(&vars, "msh %  ", envp);	
+
+	// for (char **env = envp; *env != 0; env++)
+  // {
+  //   char *thisEnv = *env;
+  //   printf("%s\n", thisEnv);    
+  // }
+
+	// ? Capute env vars to hold into own **own_env_vars inside struct s_vars
+	printf("Vars in structure are\n");		
+	if (!store_env_own_vars(vars, envp))
+		return (-1);	
+	printf("\n");
+	// ? End of caputuring env vars
 
 	// Testing mode
 	//Test 1: Got to /minishel_tester  and do bash test.sh
