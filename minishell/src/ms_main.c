@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/03 20:00:06 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/04 15:24:45 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,20 @@
 
 //Global variable
 
-int	store_env_own_vars(t_vars vars, char **envp)
+int	msh_store_env_own_vars(t_vars vars, char **envp)
 {
 	int	env_length;
 
 	env_length = 0;
-	while (envp[env_length])
+	while (envp[env_length]) //? get env length
 		env_length++;
 	vars.own_env_vars = (char **)malloc(sizeof(char *) * env_length + 1);
 	if (!vars.own_env_vars)
 		return (0);
 	
-	vars.own_env_vars[env_length] = 0;
+	vars.own_env_vars[env_length] = 0; // ? close array with a null
 	env_length = 0;
+	// ? Set own env vars into structure
 	while (envp[env_length])
 	{
 		vars.own_env_vars[env_length] = envp[env_length];
@@ -39,6 +40,7 @@ int	store_env_own_vars(t_vars vars, char **envp)
 		printf("\n%d - %s",env_length, vars.own_env_vars[env_length]);
 		env_length++;
 	}
+	//? End of printing
 	return (1);
 }
 
@@ -135,6 +137,8 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		looping = msh_getting_commands(&vars, envp);
 		msh_free_commands(&vars);
+		//? free local env vars - I think var structure is freed avobe for anything with a malloc. The following line has no effect using leaks --atExit -- ./minishell
+		// free(vars.own_env_vars);
 	}
 	msh_clear_memory(&vars);
 }
