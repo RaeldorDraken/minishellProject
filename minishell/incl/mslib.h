@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/03 19:29:09 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/05 16:31:25 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,6 @@ void	msh_free_commands(t_vars *vars);
 void	msh_clear_memory(t_vars *vars);
 void	msh_clearpath(t_vars *vars);
 void	msh_getpath(t_vars *vars, char **envp);
+int how_many_tokens_i_need(char *input);
 
 #endif

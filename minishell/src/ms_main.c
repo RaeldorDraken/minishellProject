@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/05 16:03:48 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:28:00 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,10 @@ int	main(int ac, char **av, char **envp)
   // }
 
 	// ? Capute env vars to hold into own **own_env_vars inside struct s_vars
-	printf("Vars in structure are\n");		
-	if (!msh_store_env_own_vars(vars, envp))
-		return (-1);	
-	printf("\n");
+	//printf("Vars in structure are\n");		
+	//if (!msh_store_env_own_vars(vars, envp))
+	//	return (-1);	
+	//printf("\n");
 	// ? End of caputuring env vars
 
 	// Testing mode
@@ -120,6 +120,7 @@ int	main(int ac, char **av, char **envp)
 	}*/	
 	//End tesyting mode
 	
+	char *input;
 	while (looping)
 	{
 		looping = 0;
@@ -130,15 +131,20 @@ int	main(int ac, char **av, char **envp)
 			{
 				free(vars.inpli);
 			}
-			vars.inplen = ft_strlen(vars.inpli);
+			input = sanitize_input(vars.inpli);
+			printf("input sanitized is: |%s|\n", input);
+
+			//vars.inplen = ft_strlen(vars.inpli);
+			
+			//printf("voy a necesitar %d tokens\n", how_many_tokens_i_need(input));
 			add_history(vars.inpli);
 		}
-		else
-			break ;
-		looping = msh_getting_commands(&vars, envp);
-		msh_free_commands(&vars);
+		//else
+		//	break ;
+		//looping = msh_getting_commands(&vars, envp);
+		//msh_free_commands(&vars);
 		//? free local env vars - I think var structure is freed avobe for anything with a malloc. The following line has no effect using leaks --atExit -- ./minishell
 		// free(vars.own_env_vars);
 	}
-	msh_clear_memory(&vars);
+	//msh_clear_memory(&vars);
 }
