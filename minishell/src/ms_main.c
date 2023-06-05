@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/04 15:24:45 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/05 16:03:48 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	main(int ac, char **av, char **envp)
 
 	// ? Capute env vars to hold into own **own_env_vars inside struct s_vars
 	printf("Vars in structure are\n");		
-	if (!store_env_own_vars(vars, envp))
+	if (!msh_store_env_own_vars(vars, envp))
 		return (-1);	
 	printf("\n");
 	// ? End of caputuring env vars
