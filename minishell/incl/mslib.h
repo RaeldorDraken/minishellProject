@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/05 16:31:25 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/06 22:00:48 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char	**msh_split(char c, t_vars *vars, size_t n, int i);
 char	**msh_setsplit(int *quote, size_t *strn, t_vars *vars, char c);
 char	**msh_get_cmds(t_vars *vars, int i);
 
-
 char	*msh_echo(t_vars *vars, int i, int j, int flag);
 char	*msh_getpath_cmd(t_vars *vars, char *cmd);
 char	*msh_getpath_line(char **envp);
@@ -81,6 +80,9 @@ void	msh_free_commands(t_vars *vars);
 void	msh_clear_memory(t_vars *vars);
 void	msh_clearpath(t_vars *vars);
 void	msh_getpath(t_vars *vars, char **envp);
-int how_many_tokens_i_need(char *input);
+
+int		how_many_tokens_i_need(char *input);
+// Utils
+char	*sanitize_input(char *str);
 
 #endif

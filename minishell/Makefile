@@ -6,7 +6,7 @@
 #    By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 14:48:15 by eros-gir          #+#    #+#              #
-#    Updated: 2023/06/05 16:31:13 by rabril-h         ###   ########.fr        #
+#    Updated: 2023/06/06 22:11:45 by rabril-h         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ C_END=\033[0m
 NAME = minishell
 
 SRC = ./src/ms_main.c ./src/ms_utils.c ./src/ms_parser.c ./src/ms_paths.c \
-	./src/ms_commands1.c ./src/ms_commands2.c ./src/ms_clearmem.c ./src/parser/parser.c
+	./src/ms_commands1.c ./src/ms_commands2.c ./src/ms_clearmem.c ./src/parser/parser.c \
+	./src/utils/utils.c 
 
 HDR = ./incl/mslib.h ./libft/libft.h
 

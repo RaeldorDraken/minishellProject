@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/06 22:07:56 by rabril-h          #+#    #+#             */
+/*   Updated: 2023/06/06 22:23:38 by rabril-h         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../incl/mslib.h"
+
 
 //Cuantos separadores hay
 // << < >> > |
@@ -35,7 +49,7 @@ char *clean_irrelveant_spaces_in_input(char *input)
   int miniquote;// ? comillas simples
 
   quote = 0;
-   miniquote = 0;
+  miniquote = 0;
   new_input = ft_strdup("");
   while(*input)
   {
@@ -48,23 +62,27 @@ char *clean_irrelveant_spaces_in_input(char *input)
       miniquote = 1;
     else if (*input == '\'' && miniquote == 1)
       miniquote = 0;
-
-    new_input = strjoin_char(new_input, *input)
+    // new_input = strjoin_char(new_input, *input);
   }
-  
-
+  return (new_input);
 }
 //Quitar todos los espacios irrelevantes
-//     hola    que tal "'      "      "' "     
+//     hola    que tal "'      "      "' "       
 //hola que tal "'      " "' "
 
 // ! Nuevo entry point
 
-int sanitize_input(char *input)
+char  *sanitize_input(char *input)
 {
-    input = ft_trim(input, " ");
-    input = clean_irrelveant_spaces_in_input(input);
+    printf("input UNsanitized is: |%s|\n", input);
+    input = ft_strtrim(input, " ");
 
+    /*
+      ! Begin here
+    */    
+
+    // input = clean_irrelveant_spaces_in_input(input);
+    return (input);
 }
 
 /**
@@ -112,7 +130,7 @@ int how_many_tokens_i_need(char *input)
       {
         tokens++;
       }
-      if (*(input + 1) + 1)
+      //if (*(input + 1) + 1)
     }
   }
 
