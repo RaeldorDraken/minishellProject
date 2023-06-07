@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/06 22:00:48 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/07 23:21:18 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 # include<term.h>
 
 # include"../libft/libft.h"
+
+typedef struct s_quotes {
+	int	quote;
+	int	miniquote;
+}	t_quotes;
 
 typedef struct s_separator {
 	int		index;
@@ -83,6 +88,10 @@ void	msh_getpath(t_vars *vars, char **envp);
 
 int		how_many_tokens_i_need(char *input);
 // Utils
-char	*sanitize_input(char *str);
+char	*msh_sanitize_input(char *str);
+char	*msh_strjoinchr(char *str, char ch);
+void	msh_update_quotes_status(t_quotes *quotes, char c);
+int		msh_chr_can_be_separator(char c);
+void	msh_init_quotes_struct(t_quotes *quote_struct);
 
 #endif

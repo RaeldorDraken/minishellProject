@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/05 17:28:00 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/07 23:09:05 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,12 @@ int	main(int ac, char **av, char **envp)
 			{
 				free(vars.inpli);
 			}
-			input = sanitize_input(vars.inpli);
+			// validate quotes
+
+			
+
+
+			input = msh_sanitize_input(vars.inpli);
 			printf("input sanitized is: |%s|\n", input);
 
 			//vars.inplen = ft_strlen(vars.inpli);

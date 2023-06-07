@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   msh_validations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/05 17:21:49 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/06 22:20:51 by rabril-h         ###   ########.fr       */
+/*   Created: 2023/06/07 23:19:27 by rabril-h          #+#    #+#             */
+/*   Updated: 2023/06/07 23:19:28 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// ? ft_trim() --> Clean spaces before and after input --> include din lbft
-// ? ft_strdup() --> Copy a string and allocate memory. returns allocated memory --> included in libft
-
 #include "../../incl/mslib.h"
 
-// ? ft_strjoin_chr() --> add a char to an allocated string , generating on new, and freeing the old 
+int msh_chr_can_be_separator(char c)
+{
+	if (c == '<' || c == '|' || c == '>')
+		return 1;
+	return (0);
+}
 
-// char *ft_strjoinchr(const char *str, char c)
-// {
-//   char *copy;
-  
+// Validar quotes antes de NADA de NADA
 
-//   return (copy);
-// }
+// 1 o 0 si da 1 no hago nada
