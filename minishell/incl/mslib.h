@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/07 23:21:18 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/08 21:59:58 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,11 @@ int		how_many_tokens_i_need(char *input);
 char	*msh_sanitize_input(char *str);
 char	*msh_strjoinchr(char *str, char ch);
 void	msh_update_quotes_status(t_quotes *quotes, char c);
-int		msh_chr_can_be_separator(char c);
 void	msh_init_quotes_struct(t_quotes *quote_struct);
+// Validators
+int		msh_chr_can_be_separator(char c);
+
+// Tokenizer
+void	msh_tokenizer(char *input);
 
 #endif

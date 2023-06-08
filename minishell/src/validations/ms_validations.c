@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_validations.c                                  :+:      :+:    :+:   */
+/*   ms_validations.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 23:19:27 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/07 23:19:28 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/08 22:00:25 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
 
-int msh_chr_can_be_separator(char c)
+int	msh_chr_can_be_separator(char c)
 {
 	if (c == '<' || c == '|' || c == '>')
-		return 1;
+		return (1);
 	return (0);
 }
-
-// Validar quotes antes de NADA de NADA
-
-// 1 o 0 si da 1 no hago nada

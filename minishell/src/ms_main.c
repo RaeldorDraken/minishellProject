@@ -6,41 +6,30 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/07 23:09:05 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/08 22:04:25 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../incl/mslib.h"
 
 //Global variable
-
 int	msh_store_env_own_vars(t_vars vars, char **envp)
 {
 	int	env_length;
 
 	env_length = 0;
-	while (envp[env_length]) //? get env length
+	while (envp[env_length])
 		env_length++;
 	vars.own_env_vars = (char **)malloc(sizeof(char *) * env_length + 1);
 	if (!vars.own_env_vars)
 		return (0);
-	
-	vars.own_env_vars[env_length] = 0; // ? close array with a null
+	vars.own_env_vars[env_length] = 0;
 	env_length = 0;
-	// ? Set own env vars into structure
 	while (envp[env_length])
 	{
 		vars.own_env_vars[env_length] = envp[env_length];
 		env_length++;
 	}
-	// ? printing only. Delete on deploy
-	env_length = 0;
-	while (vars.own_env_vars[env_length])
-	{
-		printf("\n%d - %s",env_length, vars.own_env_vars[env_length]);
-		env_length++;
-	}
-	//? End of printing
 	return (1);
 }
 
@@ -131,13 +120,11 @@ int	main(int ac, char **av, char **envp)
 			{
 				free(vars.inpli);
 			}
-			// validate quotes
-
-			
-
-
 			input = msh_sanitize_input(vars.inpli);
-			printf("input sanitized is: |%s|\n", input);
+			if (input == NULL)
+				continue ;
+			printf("\ninput sanitized is: |%s|\n", input);
+			msh_tokenizer(input);
 
 			//vars.inplen = ft_strlen(vars.inpli);
 			
