@@ -6,41 +6,30 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/05 16:03:48 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/10 19:43:47 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../incl/mslib.h"
 
 //Global variable
-
 int	msh_store_env_own_vars(t_vars vars, char **envp)
 {
 	int	env_length;
 
 	env_length = 0;
-	while (envp[env_length]) //? get env length
+	while (envp[env_length])
 		env_length++;
 	vars.own_env_vars = (char **)malloc(sizeof(char *) * env_length + 1);
 	if (!vars.own_env_vars)
 		return (0);
-	
-	vars.own_env_vars[env_length] = 0; // ? close array with a null
+	vars.own_env_vars[env_length] = 0;
 	env_length = 0;
-	// ? Set own env vars into structure
 	while (envp[env_length])
 	{
 		vars.own_env_vars[env_length] = envp[env_length];
 		env_length++;
 	}
-	// ? printing only. Delete on deploy
-	env_length = 0;
-	while (vars.own_env_vars[env_length])
-	{
-		printf("\n%d - %s",env_length, vars.own_env_vars[env_length]);
-		env_length++;
-	}
-	//? End of printing
 	return (1);
 }
 
@@ -100,10 +89,10 @@ int	main(int ac, char **av, char **envp)
   // }
 
 	// ? Capute env vars to hold into own **own_env_vars inside struct s_vars
-	printf("Vars in structure are\n");		
-	if (!msh_store_env_own_vars(vars, envp))
-		return (-1);	
-	printf("\n");
+	//printf("Vars in structure are\n");		
+	//if (!msh_store_env_own_vars(vars, envp))
+	//	return (-1);	
+	//printf("\n");
 	// ? End of caputuring env vars
 
 	// Testing mode
@@ -120,6 +109,7 @@ int	main(int ac, char **av, char **envp)
 	}*/	
 	//End tesyting mode
 	
+	char *input;
 	while (looping)
 	{
 		looping = 0;
@@ -130,15 +120,51 @@ int	main(int ac, char **av, char **envp)
 			{
 				free(vars.inpli);
 			}
-			vars.inplen = ft_strlen(vars.inpli);
+			input = msh_sanitize_input(vars.inpli);
+			if (input == NULL)
+				continue ;
+			printf("\ninput sanitized is: |%s|\n", input);
+			vars.cmd = msh_tokenize(input);
+			debug_cmd_list(vars.cmd);
+			//msh_split_cmd_argvs(input);
+
+			//vars.inplen = ft_strlen(vars.inpli);
+			
+			//printf("voy a necesitar %d tokens\n", how_many_tokens_i_need(input));
 			add_history(vars.inpli);
 		}
-		else
-			break ;
-		looping = msh_getting_commands(&vars, envp);
-		msh_free_commands(&vars);
+		//else
+		//	break ;
+		//looping = msh_getting_commands(&vars, envp);
+		//msh_free_commands(&vars);
 		//? free local env vars - I think var structure is freed avobe for anything with a malloc. The following line has no effect using leaks --atExit -- ./minishell
 		// free(vars.own_env_vars);
 	}
-	msh_clear_memory(&vars);
+	//msh_clear_memory(&vars);
+}
+
+void debug_cmd_list(t_cmd *first)
+{
+	t_cmd *tmp;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	tmp = first;
+	while(tmp)
+	{
+		//debugar token
+		printf("Token %d:\n", i);
+		printf("argc == %d\n", tmp->argc);
+		while(tmp->argv[j])
+		{
+			printf("argv[%d] = |%s|\n", j, tmp->argv[j]);
+			j++;
+		}
+		printf("is separator = %d\n", tmp->is_separator);
+		j = 0;
+		i++;
+		tmp = tmp->next;
+	}
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+         #
+#    By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 14:48:15 by eros-gir          #+#    #+#              #
-#    Updated: 2023/06/01 10:27:56 by eros-gir         ###   ########.fr        #
+#    Updated: 2023/06/08 21:31:20 by rabril-h         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ C_END=\033[0m
 NAME = minishell
 
 SRC = ./src/ms_main.c ./src/ms_utils.c ./src/ms_parser.c ./src/ms_paths.c \
-	./src/ms_commands1.c ./src/ms_commands2.c ./src/ms_clearmem.c
+	./src/ms_commands1.c ./src/ms_commands2.c ./src/ms_clearmem.c ./src/parser/ms_parser.c \
+	./src/utils/ms_utils.c ./src/validations/ms_validations.c ./src/tokenizer/ms_tokenizer.c
 
 HDR = ./incl/mslib.h ./libft/libft.h
 
