@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/10 19:43:47 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:14:21 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,9 @@ int	main(int ac, char **av, char **envp)
 	}*/	
 	//End tesyting mode
 	
-	char *input;
 	while (looping)
 	{
-		looping = 0;
+		looping = 1;
 		vars.inpli = readline(vars.prompt);
 		if (vars.inpli != NULL)
 		{
@@ -120,18 +119,23 @@ int	main(int ac, char **av, char **envp)
 			{
 				free(vars.inpli);
 			}
-			input = msh_sanitize_input(vars.inpli);
-			if (input == NULL)
+			vars.input = msh_sanitize_input(vars.inpli);
+			if (vars.input == NULL)
 				continue ;
-			printf("\ninput sanitized is: |%s|\n", input);
-			vars.cmd = msh_tokenize(input);
+			printf("\ninput sanitized is: |%s|\n", vars.input);
+			vars.cmd = msh_tokenize(&vars);
 			debug_cmd_list(vars.cmd);
+			if(ft_strcmp(vars.cmd->argv[0], "exit") == 0)
+				looping = 0;
 			//msh_split_cmd_argvs(input);
 
 			//vars.inplen = ft_strlen(vars.inpli);
 			
 			//printf("voy a necesitar %d tokens\n", how_many_tokens_i_need(input));
 			add_history(vars.inpli);
+			// ! Limpiar lista de comandos, con sus argvs, i argv i los tokens de la lista
+			// ! free_cmd_list();
+			// ! debriamos tambien poner vars.cmd = NULL
 		}
 		//else
 		//	break ;
@@ -139,7 +143,8 @@ int	main(int ac, char **av, char **envp)
 		//msh_free_commands(&vars);
 		//? free local env vars - I think var structure is freed avobe for anything with a malloc. The following line has no effect using leaks --atExit -- ./minishell
 		// free(vars.own_env_vars);
-	}
+		
+}
 	//msh_clear_memory(&vars);
 }
 

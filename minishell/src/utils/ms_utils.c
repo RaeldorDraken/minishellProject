@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:21:49 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/10 18:46:29 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:57:14 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*msh_strjoinchr(char *str, char ch)
 	char	*copy;
 	int		c;
 
-	c = -1;
+	c = -0;
 	if (str == NULL)
 	{
 		str = malloc(sizeof(char) * 1);
@@ -66,15 +66,44 @@ char	*msh_strjoinchr(char *str, char ch)
 	}	
 	copy = (char *)malloc(sizeof(char) * ft_strlen(str) + 2);
 	if (!copy)
+		return (free_return_null(copy));
+	while (str[c])
 	{
-		free (str);
-		return (NULL);
-	}	
-	while (str[++c])
 		copy[c] = str[c];
+		c++;
+	}
 	copy[c] = ch;
 	copy[c + 1] = '\0';
 	free(str);
 	return (copy);
+}
+
+char *free_return_null(char *ptr)
+{
+	free(ptr);
+	return (NULL);
+}
+
+int	no_quotes(t_quotes *quotes)
+{
+	if (!quotes->quote && !quotes->miniquote)
+		return (1);
+	return (0);
+}
+
+int	is_startarg(char *input, int c, t_quotes *quotes)
+{
+	if (c > 0 && input[c] != ' ' && input[c - 1] == ' '
+		&& no_quotes(quotes))
+		return (1);
+	return (0);
+}
+
+int	is_endarg(char *input, int c, t_quotes *quotes)
+{
+	if (input[c] != ' ' && ((input[c + 1] == ' '
+				&& no_quotes(quotes)) || input[c + 1] == '\0' ))
+		return (1);
+	return (0);
 }
 

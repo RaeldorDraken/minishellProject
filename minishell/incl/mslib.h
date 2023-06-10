@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/10 19:43:43 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:57:49 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,16 @@ typedef struct s_cmd {
 	struct s_cmd	*next;	
 }	t_cmd;
 
+typedef struct s_counters {
+	int				c1;
+	int				c2;
+}	t_counters;
+
 typedef struct s_vars
 {
+	char  	*input;
+	t_quotes  *quotes;
+	t_counters  *c; //To can count more easier
 	char	**own_env_vars;
 	char	*prompt;
 	char	*inpli;
@@ -95,16 +103,20 @@ char	*msh_strjoinchr(char *str, char ch);
 void	msh_update_quotes_status(t_quotes *quotes, char c);
 void	msh_init_quotes_struct(t_quotes *quote_struct);
 void	msh_print_element(char *input, int start, int end);
+int		no_quotes(t_quotes *quotes);
+int 	is_startarg(char *input, int c, t_quotes *quotes);
+int		is_endarg(char *input, int c, t_quotes *quotes);
+char *free_return_null(char *ptr);
 
 // Validators
 int		msh_chr_can_be_separator(char c);
 
 // Tokenizer-ish
-char **msh_split_cmd_argvs(char *input, int argc);
-int		msh_how_many_tokens_i_need(char *input);
-char	**msh_prepare_splitted_input_in_cmds(char *input);
-t_cmd *msh_tokenize(char *input);
-int	msh_how_many_argv_have_the_cmd(char *input);
-void debug_cmd_list(t_cmd *first);
+char	**msh_split_cmd_argvs(char *input, int argc);
+int		msh_count_tokens(char *input);
+char	**msh_prepare_splitted_input_in_cmds(t_vars *vars);
+t_cmd	*msh_tokenize(t_vars *vars);
+int		msh_how_many_argv_have_the_cmd(char *input);
+void	debug_cmd_list(t_cmd *first);
 
 #endif
