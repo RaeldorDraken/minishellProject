@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mslib.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/01 20:57:29 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/03 19:29:09 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,20 @@
 typedef struct s_separator {
 	int		index;
 	char	*separator;
-	char 	*prev_token;
+	char	*prev_token;
 	char	*next_token;
-} t_separator;
+}	t_separator;
 
 typedef struct s_cmd {
-	int     index;
-	char	*cmd;
-	int     is_separator;
-	t_cmd	*next;	
-} t_cmd;
+	int				index;
+	char			*cmd;
+	int				is_separator;
+	struct s_cmd	*next;	
+}	t_cmd;
 
 typedef struct s_vars
 {
+	char	**own_env_vars;
 	char	*prompt;
 	char	*inpli;
 	char	**inpcomm;
@@ -52,7 +53,7 @@ typedef struct s_vars
 	char	**envar;
 	int		inplen;
 	int		sigbool;
-	int 	sigexec;
+	int		sigexec;
 	char	**paths;
 	char	**cmd_buffer;
 	t_cmd	*cmd;
