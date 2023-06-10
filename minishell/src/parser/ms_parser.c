@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:07:56 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/08 22:00:57 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/10 17:42:56 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,57 +24,7 @@
 
 //hola    que tal "'      "      "' "  
 
-/**
- * @brief function para usar despues de sanitaze_input
- * 
- * @param input 
- * @return int 
- */
 
-
-// int how_many_tokens_i_need(char *input)
-// {
-// 	int quote; // ? comillas dobles
-// 	int miniquote;// ? comillas simples
-// 	int tokens; // ? numero de tokens
-
-// 	quote = 0;
-// 	miniquote = 0;
-// 	tokens = 0;
-// 	while (*input)
-// 	{
-// 		//Evaluar los quotes
-// 		if (*input == '"' && quote == 0 && miniquote != 1 )
-// 			quote = 1;
-// 		else if (*input == '"' && quote == 1)
-// 			quote = 0;
-// 		if (*input == '\'' && miniquote == 0 && quote != 1)
-// 			miniquote = 1;
-// 		else if (*input == '\'' && miniquote == 1)
-// 			miniquote = 0;
-
-// 		//....  
-// 		if (chr_can_be_separator(*input))
-// 		{
-// 			if (*input == '<' && *(input + 1) == '<')
-// 			{
-// 				tokens++;
-// 				input++;
-// 			}
-// 			else if (*input == '>' && *(input + 1) == '>')
-// 			{
-// 				tokens++;
-// 				input++;
-// 			}else
-// 			{
-// 				tokens++;
-// 			}
-// 			//if (*(input + 1) + 1)
-// 		}
-// 	}
-
-// 	return (tokens);
-// }
 
 
 

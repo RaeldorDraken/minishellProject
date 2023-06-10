@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:21:49 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/08 22:00:32 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/10 18:46:29 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,21 @@
  * @param quote_struct 
  */
 
+void	msh_print_element(char *input, int start, int end)
+{
+	printf("\nstart es %d y end es %d\n", start, end);
+
+	while (start <= end)
+	{
+		write(1, &input[start], 1);
+		start++;
+	}
+	printf("\n");
+}
+
 void	msh_init_quotes_struct(t_quotes *quote_struct)
 {
-	quote_struct->quote = 0; 
+	quote_struct->quote = 0;
 	quote_struct->miniquote = 0;
 }
 
@@ -50,7 +62,7 @@ char	*msh_strjoinchr(char *str, char ch)
 		str = malloc(sizeof(char) * 1);
 		if (!str)
 			return (NULL);
-		str[0] = '\0';	
+		str[0] = '\0';
 	}	
 	copy = (char *)malloc(sizeof(char) * ft_strlen(str) + 2);
 	if (!copy)

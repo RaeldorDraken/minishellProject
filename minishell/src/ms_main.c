@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/08 22:04:25 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/10 19:43:47 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,9 @@ int	main(int ac, char **av, char **envp)
 			if (input == NULL)
 				continue ;
 			printf("\ninput sanitized is: |%s|\n", input);
-			msh_tokenizer(input);
+			vars.cmd = msh_tokenize(input);
+			debug_cmd_list(vars.cmd);
+			//msh_split_cmd_argvs(input);
 
 			//vars.inplen = ft_strlen(vars.inpli);
 			
@@ -139,4 +141,30 @@ int	main(int ac, char **av, char **envp)
 		// free(vars.own_env_vars);
 	}
 	//msh_clear_memory(&vars);
+}
+
+void debug_cmd_list(t_cmd *first)
+{
+	t_cmd *tmp;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	tmp = first;
+	while(tmp)
+	{
+		//debugar token
+		printf("Token %d:\n", i);
+		printf("argc == %d\n", tmp->argc);
+		while(tmp->argv[j])
+		{
+			printf("argv[%d] = |%s|\n", j, tmp->argv[j]);
+			j++;
+		}
+		printf("is separator = %d\n", tmp->is_separator);
+		j = 0;
+		i++;
+		tmp = tmp->next;
+	}
 }
