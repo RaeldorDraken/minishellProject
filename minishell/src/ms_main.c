@@ -3,33 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/10 22:14:21 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:28:21 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../incl/mslib.h"
 
 //Global variable
-int	msh_store_env_own_vars(t_vars vars, char **envp)
+int	msh_store_env_own_vars(t_vars *vars, char **envp)
 {
 	int	env_length;
 
 	env_length = 0;
 	while (envp[env_length])
 		env_length++;
-	vars.own_env_vars = (char **)malloc(sizeof(char *) * env_length + 1);
-	if (!vars.own_env_vars)
+	env_length++;
+	vars->own_env_vars = (char **)ft_calloc(sizeof(char *), env_length + 1);
+	if (!vars->own_env_vars)
 		return (0);
-	vars.own_env_vars[env_length] = 0;
+	vars->own_env_vars[env_length] = 0;
 	env_length = 0;
 	while (envp[env_length])
 	{
-		vars.own_env_vars[env_length] = envp[env_length];
+		vars->own_env_vars[env_length] = envp[env_length];
 		env_length++;
 	}
+	vars->own_env_vars[env_length] = NULL;
 	return (1);
 }
 
@@ -81,7 +83,16 @@ int	main(int ac, char **av, char **envp)
 	g_return_status = 0;
 	msh_ignore_signals(&vars, ac, av);    //Comentar cuando testing
 	msh_set_vars(&vars, "msh %  ", envp);	
+	msh_store_env_own_vars(&vars, envp); //se necesita para establecer lista de enviroment variables iniciales
 
+	//test own env vars
+	int	i = 0;
+	while (vars.own_env_vars[i])
+	{
+		printf("own_env_vars[%d] = %s\n", i, vars.own_env_vars[i]);
+		i ++;
+	}
+	
 	// for (char **env = envp; *env != 0; env++)
   // {
   //   char *thisEnv = *env;
@@ -107,8 +118,7 @@ int	main(int ac, char **av, char **envp)
 		msh_getting_commands(&vars, envp);
 		exit(g_return_status);
 	}*/	
-	//End tesyting mode
-	
+	//End testing mode
 	while (looping)
 	{
 		looping = 1;
@@ -124,9 +134,16 @@ int	main(int ac, char **av, char **envp)
 				continue ;
 			printf("\ninput sanitized is: |%s|\n", vars.input);
 			vars.cmd = msh_tokenize(&vars);
-			debug_cmd_list(vars.cmd);
+		//	debug_cmd_list(vars.cmd);
+
+		//ejecucion de comandos Primero los built-in, y si no existen pasar al execve con execute
+			//? Si el comando es exit, se sale del bucle
 			if(ft_strcmp(vars.cmd->argv[0], "exit") == 0)
 				looping = 0;
+
+			//? Aqui se ejecuta el comando
+			msh_execute_start(&vars);
+			
 			//msh_split_cmd_argvs(input);
 
 			//vars.inplen = ft_strlen(vars.inpli);

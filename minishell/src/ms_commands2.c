@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 10:33:12 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/05/29 11:43:58 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/12 10:15:06 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ char	*msh_echo(t_vars *vars, int i, int j, int flag)
 				j ++;
 		}
 		if (j == -1)
+		{
 			break ;
+		}
 			echor = ft_joinloc(echor, ft_strdup(vars->inpcomm[i]));
 		if (vars->inpcomm[i + 1])
 			echor = ft_joinloc(echor, ft_strdup(" "));

@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:55:14 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/01 20:42:43 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:14:10 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,20 @@ int	msh_getting_commands2(t_vars *vars, int i, char **envp)
 	return (1);
 }
 
-//funcion va en otro archivo
+//funcion va en otro archivo no se usa
+
 int	msh_getting_envp_commands(t_vars *vars, char **envp)
 {
 	msh_getpath(vars, envp);
-	msh_cmd_execute(vars, envp, NULL);
+	msh_cmd_execute(vars);
 	msh_clearpath(vars);
 	return (vars->sigexec);
 }
+
 //funcion va en otro archivo
 
 int	msh_getting_commands(t_vars *vars, char **envp)
 {
-	int	i;
-
-	i = -1;
 	if (vars->inpli[0] != '\0')
 	{
 		vars->inpcomm = msh_split(' ', vars, 0, 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_tokenizer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 21:30:28 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/10 22:52:45 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/12 10:17:27 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,12 +194,12 @@ int	msh_how_many_argv_have_the_cmd(char *input)
 {
 	t_quotes	quotes;
 	int			num;
-	int			end;
+//	int			end; // comentado porque no compila
 	int			c;
 
 	c = -1;
 	num = 0;
-	end = 0;
+//	end = 0; //comentado porque no compila
 	msh_init_quotes_struct(&quotes);
 	while (input[++c])
 	{

@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 09:53:24 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/01 11:34:01 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:22:57 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@ char	*msh_getpath_line(char **envp)
 	int	i;
 
 	i = 0;
+	write(1 , "enters get pathline\n", 20);
 	while (envp[i] != NULL)
+	{
+		write(1 , ft_itoa(i), ft_strlen(ft_itoa(i)));
 		i ++;
+	}
+	write(1 , "middle get pathline\n", 20);
 	i --;
 	while (ft_strncmp(envp[i], "PATH=", 5) != 0 && i != 0)
 		i --;
@@ -32,6 +37,7 @@ void	msh_getpath(t_vars *vars, char **envp)
 	char	*path_line;
 	int		i;
 
+	write(1 , "enters get path\n", 16);
 	path_line = msh_getpath_line(envp);
 	if (path_line == NULL)
 		path_line = "PATH=./";
@@ -69,6 +75,8 @@ char	*msh_getpath_cmd(t_vars *vars, char *cmd)
 	return (path_cmd);
 }
 
+//Todo esto comentado para no duplicar funciones
+/*
 int	msh_cmd_execute(t_vars *vars, char **envp, char *cmd)
 {
 	pid_t	exec_pid;
@@ -126,3 +134,4 @@ char	**msh_get_cmds(t_vars *vars, int i)
 	cmds[k] = NULL;
 	return (cmds);
 }
+*/

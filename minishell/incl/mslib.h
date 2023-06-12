@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mslib.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/10 22:57:49 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:16:44 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ size_t	msh_strnum(const char *s, char c);
 int		msh_check_quotes(t_vars *vars, char c, int i);
 int		msh_getting_commands(t_vars *vars, char **envp);
 int		msh_getting_envp_commands(t_vars *vars, char **envp);
-int		msh_cmd_execute(t_vars *vars, char **envp, char *cmd);
+int		msh_cmd_execute(t_vars *vars);
 
 char	**msh_split(char c, t_vars *vars, size_t n, int i);
 char	**msh_setsplit(int *quote, size_t *strn, t_vars *vars, char c);
@@ -95,7 +95,8 @@ void	msh_clear_memory(t_vars *vars);
 void	msh_clearpath(t_vars *vars);
 void	msh_getpath(t_vars *vars, char **envp);
 
-
+// Executes
+int		msh_execute_start(t_vars *vars);
 
 // Utils
 char	*msh_sanitize_input(char *str);
@@ -104,9 +105,9 @@ void	msh_update_quotes_status(t_quotes *quotes, char c);
 void	msh_init_quotes_struct(t_quotes *quote_struct);
 void	msh_print_element(char *input, int start, int end);
 int		no_quotes(t_quotes *quotes);
-int 	is_startarg(char *input, int c, t_quotes *quotes);
+int		is_startarg(char *input, int c, t_quotes *quotes);
 int		is_endarg(char *input, int c, t_quotes *quotes);
-char *free_return_null(char *ptr);
+char	*free_return_null(char *ptr);
 
 // Validators
 int		msh_chr_can_be_separator(char c);
