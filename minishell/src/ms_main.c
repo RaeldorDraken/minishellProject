@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/12 11:28:21 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/12 11:30:33 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,14 @@ int	main(int ac, char **av, char **envp)
 	msh_store_env_own_vars(&vars, envp); //se necesita para establecer lista de enviroment variables iniciales
 
 	//test own env vars
+	/*
 	int	i = 0;
 	while (vars.own_env_vars[i])
 	{
 		printf("own_env_vars[%d] = %s\n", i, vars.own_env_vars[i]);
 		i ++;
 	}
+	*/
 	
 	// for (char **env = envp; *env != 0; env++)
   // {
