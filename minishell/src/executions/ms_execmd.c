@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/17 18:04:12 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/17 19:07:22 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	msh_cmd_execute(t_vars *vars)
 	
 	write(1 , "enters cmd execute\n", 19);
 	temp_cmd = msh_getpath_cmd(vars, vars->cmd->argv[0]);
+	if (temp_cmd == NULL)
+		return (1);
 	exec_pid = fork();
 	if (exec_pid == 0)
 	{
