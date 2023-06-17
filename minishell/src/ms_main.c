@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/12 11:30:33 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/17 19:03:38 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,6 @@ void	msh_ignore_signals(t_vars *vars, int ac, char **av)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-//if sigexec == -1 is unset
-//if sigexec == 0 is set to error
-//if sigexec == 1 is set to success
 void	msh_set_vars(t_vars *vars, char *input, char **envp)
 {
 	vars->prompt = ft_calloc(ft_strlen(input) + 1, 1);
@@ -131,6 +128,7 @@ int	main(int ac, char **av, char **envp)
 			{
 				free(vars.inpli);
 			}
+			add_history(vars.inpli);
 			vars.input = msh_sanitize_input(vars.inpli);
 			if (vars.input == NULL)
 				continue ;
@@ -151,7 +149,6 @@ int	main(int ac, char **av, char **envp)
 			//vars.inplen = ft_strlen(vars.inpli);
 			
 			//printf("voy a necesitar %d tokens\n", how_many_tokens_i_need(input));
-			add_history(vars.inpli);
 			// ! Limpiar lista de comandos, con sus argvs, i argv i los tokens de la lista
 			// ! free_cmd_list();
 			// ! debriamos tambien poner vars.cmd = NULL
