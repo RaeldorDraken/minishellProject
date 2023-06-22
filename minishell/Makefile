@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+         #
+#    By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 14:48:15 by eros-gir          #+#    #+#              #
-#    Updated: 2023/06/17 18:05:03 by eros-gir         ###   ########.fr        #
+#    Updated: 2023/06/17 18:39:44 by rabril-h         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,11 @@ C_END=\033[0m
 
 NAME = minishell
 
-SRC = ./src/ms_main.c ./src/ms_utils.c ./src/ms_parser.c ./src/ms_paths.c \
-	./src/ms_commands1.c ./src/ms_commands2.c ./src/ms_clearmem.c ./src/parser/ms_parser.c \
-	./src/utils/ms_utils.c ./src/validations/ms_validations.c ./src/tokenizer/ms_tokenizer.c \
-	./src/executions/ms_execmd.c ./src/executions/ms_execpath.c
+SRC = ./src/ms_main.c  \
+	./src/parser/ms_parser.c ./src/executions/ms_execmd.c ./src/executions/ms_execpath.c \
+	./src/parser/env_parser/ms_env_parser.c ./src/tokenizer/ms_tokenizer.c ./src/built_ins/ms_built_ins.c \
+	./src/built_ins/execs/ms_exec_exit.c ./src/built_ins/execs/ms_exec_echo.c ./src/utils/ms_utils.c ./src/helpers/ms_helpers.c \
+	./src/validations/ms_validations.c ./src/destroyer/ms_destroyer.c
 
 HDR = ./incl/mslib.h ./libft/libft.h
 

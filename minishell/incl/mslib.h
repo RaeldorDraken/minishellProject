@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:06:39 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/12 11:16:44 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:25:40 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@
 
 # include"../libft/libft.h"
 
+int g_return_status;
+
+typedef struct s_exec {
+	int		pfds[2][2];
+	int		cmd_num;
+	pid_t	*cmd_pid;
+}	t_exec;
+
 typedef struct s_quotes {
 	int	quote;
 	int	miniquote;
@@ -42,8 +50,8 @@ typedef struct s_separator {
 
 typedef struct s_cmd {
 	int				index;
-	int 			argc;
-	char 			**argv;
+	int				argc;
+	char			**argv;
 	int				is_separator;
 	struct s_cmd	*next;	
 }	t_cmd;
@@ -55,69 +63,82 @@ typedef struct s_counters {
 
 typedef struct s_vars
 {
-	char  	*input;
-	t_quotes  *quotes;
-	t_counters  *c; //To can count more easier
-	char	**own_env_vars;
-	char	*prompt;
-	char	*inpli;
-	char	**inpcomm;
-	char	**btins;
-	char	**tokens;
-	char	**envar;
-	int		inplen;
-	int		sigbool;
-	int		sigexec;
-	char	**paths;
-	char	**cmd_buffer;
-	t_cmd	*cmd;
+	char			*input;
+	int				looping;
+	t_quotes		*quotes;
+	t_counters		*c;
+	char			**envar;
+	char			*prompt;
+	char			*inpli;
+	char			**inpcomm;
+	char			**tokens;
+	int				inplen;
+	int				sigbool;
+	char			**paths;
+	char			**cmd_buffer;
+	t_cmd			*cmd;
 }	t_vars;
 
-size_t	msh_maxvalue(size_t first, size_t second);
-size_t	msh_strnum(const char *s, char c);
-
-int		msh_check_quotes(t_vars *vars, char c, int i);
-int		msh_getting_commands(t_vars *vars, char **envp);
-int		msh_getting_envp_commands(t_vars *vars, char **envp);
-int		msh_cmd_execute(t_vars *vars);
-
-char	**msh_split(char c, t_vars *vars, size_t n, int i);
-char	**msh_setsplit(int *quote, size_t *strn, t_vars *vars, char c);
-char	**msh_get_cmds(t_vars *vars, int i);
-
-char	*msh_echo(t_vars *vars, int i, int j, int flag);
-char	*msh_getpath_cmd(t_vars *vars, char *cmd);
-char	*msh_getpath_line(char **envp);
-
-void	msh_acptd_comm(t_vars *vars);
-void	msh_free_commands(t_vars *vars);
-void	msh_clear_memory(t_vars *vars);
-void	msh_clearpath(t_vars *vars);
-void	msh_getpath(t_vars *vars, char **envp);
-
-// Executes
-int		msh_execute_start(t_vars *vars);
-
 // Utils
-char	*msh_sanitize_input(char *str);
+
 char	*msh_strjoinchr(char *str, char ch);
 void	msh_update_quotes_status(t_quotes *quotes, char c);
 void	msh_init_quotes_struct(t_quotes *quote_struct);
+int		msh_no_quotes(t_quotes *quotes);
+char	*msh_free_return_null(char *ptr);
+int		msh_cmd_is_built_in(t_cmd *cmd);
+
+// Helpers
+
 void	msh_print_element(char *input, int start, int end);
-int		no_quotes(t_quotes *quotes);
-int		is_startarg(char *input, int c, t_quotes *quotes);
-int		is_endarg(char *input, int c, t_quotes *quotes);
-char	*free_return_null(char *ptr);
+void	msh_debug_cmd_list(t_cmd *first);
+
+
+//env parser
+
+int		msh_store_env_own_vars(t_vars *vars, char **envp);
+int		msh_store_env_own_lines(t_vars *vars, char **envp, int index);
+
+
+//Parser
+
+char	*msh_sanitize_input(char *str);
+char	*msh_clean_irrelveant_spaces_in_input(char *input);
+int		msh_malformed_quotes(char *input);
+
 
 // Validators
+
 int		msh_chr_can_be_separator(char c);
+int		msh_is_startarg(char *input, int c, t_quotes *quotes);
+int		msh_is_endarg(char *input, int c, t_quotes *quotes);
 
 // Tokenizer-ish
+
 char	**msh_split_cmd_argvs(char *input, int argc);
 int		msh_count_tokens(char *input);
 char	**msh_prepare_splitted_input_in_cmds(t_vars *vars);
 t_cmd	*msh_tokenize(t_vars *vars);
 int		msh_how_many_argv_have_the_cmd(char *input);
-void	debug_cmd_list(t_cmd *first);
+
+
+// Destroyers
+
+void	msh_free_cmd_list(t_cmd *first);
+void	msh_free_raw_array(char **arr);
+void	msh_free_envars(t_vars *vars);
+
+// Built ins
+void	msh_exec_builtin(t_cmd *cmd, t_vars *vars);
+void	msh_exec_exit(t_vars *vars);
+void	msh_exec_echo(t_vars *vars);
+
+// Executions
+int		msh_execute_start(t_vars *vars);
+int		msh_cmd_execute(t_vars *vars, t_cmd *cmd);
+char	*msh_getpath_cmd(t_vars *vars, char *cmd);
+char	*msh_getpath_line(char **envp);
+void	msh_getpath(t_vars *vars, char **envp);
+
 
 #endif
