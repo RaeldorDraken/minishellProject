@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+         #
+#    By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/02 14:48:15 by eros-gir          #+#    #+#              #
-#    Updated: 2023/06/17 18:39:44 by rabril-h         ###   ########.fr        #
+#    Updated: 2023/06/30 18:21:55 by eros-gir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,23 @@ C_END=\033[0m
 NAME = minishell
 
 SRC = ./src/ms_main.c  \
-	./src/parser/ms_parser.c ./src/executions/ms_execmd.c ./src/executions/ms_execpath.c \
-	./src/parser/env_parser/ms_env_parser.c ./src/tokenizer/ms_tokenizer.c ./src/built_ins/ms_built_ins.c \
-	./src/built_ins/execs/ms_exec_exit.c ./src/built_ins/execs/ms_exec_echo.c ./src/utils/ms_utils.c ./src/helpers/ms_helpers.c \
+	./src/parser/ms_parser.c \
+	./src/executions/ms_execmd.c \
+	./src/executions/ms_execpath.c \
+	./src/executions/ms_redirections.c \
+	./src/executions/ms_heredoc.c \
+	./src/executions/ms_pipe.c \
+	./src/parser/env_parser/ms_env_parser.c \
+	./src/tokenizer/ms_tokenizer.c \
+	./src/built_ins/ms_built_ins.c \
+	./src/built_ins/execs/ms_exec_exit.c \
+	./src/built_ins/execs/ms_exec_echo.c  \
+	./src/built_ins/execs/ms_exec_env.c \
+	./src/built_ins/execs/ms_exec_pwd.c \
+	./src/built_ins/execs/ms_exec_cd.c \
+	./src/built_ins/execs/ms_exec_unset.c \
+	./src/built_ins/execs/ms_exec_export.c \
+	./src/utils/ms_utils.c ./src/helpers/ms_helpers.c \
 	./src/validations/ms_validations.c ./src/destroyer/ms_destroyer.c
 
 HDR = ./incl/mslib.h ./libft/libft.h

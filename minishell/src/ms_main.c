@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/22 19:25:17 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:58:41 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,20 @@
 // 	}
 // }
 
-
 //Global variable
+int	g_return_status;
+
 void	msh_sigint_handler(int sig)
 {
 	if (sig != 0)
 	{
-		printf("\n");
 		rl_on_new_line();
-		//rl_replace_line("", 0);
 		rl_redisplay();
+		write(1, "  \n", 3);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		g_return_status = 1;
 	}
 }
 
@@ -111,9 +115,9 @@ int	main(int ac, char **av, char **envp)
 	{
 		vars.inpli = av[2];
 		vars.inplen = ft_strlen(vars.inpli);
-		msh_getting_commands(&vars, envp);
+		msh_execute_start(&vars);
 		exit(g_return_status);
-	}*/	
+	}*/
 	//End tesyting mode
 	
 	while (vars.looping)
@@ -125,7 +129,7 @@ int	main(int ac, char **av, char **envp)
 			if (vars.inpli[0] == '\0')
 			{
 				free(vars.inpli);
-				continue;
+				continue ;
 			}
 			add_history(vars.inpli);
 			vars.input = msh_sanitize_input(vars.inpli);
@@ -134,15 +138,9 @@ int	main(int ac, char **av, char **envp)
 
 			vars.cmd = msh_tokenize(&vars);		
 			//msh_debug_cmd_list(vars.cmd); // debug tokens
-
-			// !WIP built-ins
-			if(msh_cmd_is_built_in(vars.cmd))
-				msh_exec_builtin(vars.cmd, &vars);
-			else
-			{
-				// ! entry point eduard
+			//Execution integrando builtins a pipes
+			if (vars.cmd != NULL)
 				msh_execute_start(&vars);
-			}
 
 			//msh_debug_cmd_list(vars.cmd);
 
@@ -156,6 +154,8 @@ int	main(int ac, char **av, char **envp)
 			msh_free_raw_array(vars.tokens); // ? free tokens
 			free(vars.input); // ? free trimed input
 		}
+		else
+			vars.looping = 0; // this is ctrl-D exits shell
 
 		//looping = msh_getting_commands(&vars, envp);
 		//msh_free_commands(&vars);
@@ -163,7 +163,9 @@ int	main(int ac, char **av, char **envp)
 	msh_free_envars(&vars);
 	free(vars.prompt);
 	printf("Salgo pro aqui");
+	system("leaks minishell"); //para comprobar leaks usar leaks minishell dentro  y quitar esta linea antes de entregar
 	return (g_return_status);
 }
+
 
 
