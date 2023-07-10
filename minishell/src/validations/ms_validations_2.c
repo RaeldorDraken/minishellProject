@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ms_validations_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
+/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/15 11:23:33 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/10 15:34:28 by eros-gir         ###   ########.fr       */
+/*   Created: 2023/06/26 22:19:54 by rabril-h          #+#    #+#             */
+/*   Updated: 2023/06/26 22:22:25 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../incl/mslib.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+int	msh_argv_need_expansion(char c)
 {
-	size_t	i;
-	char	*str;
-
-	str = (char *)b;
-	i = -1;
-	while (++i < len)
-		str[i] = (unsigned char)c;
-	return (b);
+	if (c == '\'' || c == '"' || c == '$')
+		return (1);
+	return (0);
 }

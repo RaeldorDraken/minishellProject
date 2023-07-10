@@ -6,7 +6,7 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 10:21:17 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/02 18:25:36 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/07 19:56:44 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	msh_pipe_fork1(t_vars *vars, t_cmd *cmd, int prev_pobj[2], int rc)
 	}
 	if (rc != 0)
 		msh_close_pipes(prev_pobj);
-	msh_pipe_fork2(vars, tcmd, pobj, child2);
+	g_return_status = msh_pipe_fork2(vars, tcmd, pobj, child2);
 	while (wait(NULL) > 0)
 		;
 	return (0);
@@ -64,7 +64,7 @@ int	msh_pipe_fork2(t_vars *vars, t_cmd tcmd, int pobj[2], pid_t child2)
 	}
 	msh_close_pipes(pobj);
 	waitpid(child2, &g_return_status, 0);
-	return (0);
+	return (g_return_status);
 }
 
 int	msh_execute_start(t_vars *vars)
@@ -76,6 +76,7 @@ int	msh_execute_start(t_vars *vars)
 	pobj[0] = 0;
 	pobj[1] = 0;
 	tcmd = vars->cmd;
+	vars->hdnumb = msh_store_heredocs(vars);
 	single = fork();
 	if (single < 0)
 		return (1);
@@ -85,11 +86,13 @@ int	msh_execute_start(t_vars *vars)
 	{
 		kill (single, SIGKILL);
 		msh_pipe_fork1(vars, vars->cmd, pobj, 0);
+		g_return_status = WEXITSTATUS(g_return_status);
 	}
 	else
 		msh_single_cmd(vars, single, tcmd);
 	msh_restore_io(vars->iofd);
-	g_return_status = WEXITSTATUS(g_return_status);
+	if (vars->hdnumb > 0)
+		msh_clean_heredoc(vars);
 	return (g_return_status);
 }
 // para ver el status de salida de un comando
@@ -98,29 +101,24 @@ int	msh_execute_start(t_vars *vars)
 
 void	msh_single_cmd(t_vars *vars, pid_t single, t_cmd *tcmd)
 {
-	if (msh_is_redirect(*vars->cmd))
-	{
-		while (tcmd->next != NULL)
-		{
-			msh_exec_redirect(tcmd, -1);
-			tcmd = tcmd->next->next;
-		}
-	}
 	if (msh_cmd_is_built_in(vars->cmd))
 	{
 		kill (single, SIGKILL);
+		msh_set_redirect(vars, tcmd);
 		msh_exec_builtin(vars->cmd, vars);
 	}
 	else
 	{
 		if (single == 0)
 		{
+			msh_set_redirect(vars, tcmd);
 			msh_getpath(vars, vars->envar);
 			g_return_status = msh_cmd_execute(vars, vars->cmd);
 			msh_free_raw_array(vars->paths);
 			exit(g_return_status);
 		}
 		waitpid(single, &g_return_status, 0);
+		g_return_status = WEXITSTATUS(g_return_status);
 	}
 }
 

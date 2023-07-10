@@ -6,11 +6,11 @@
 /*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 18:03:38 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/07/02 18:23:29 by eros-gir         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:43:59 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../../incl/mslib.h"
+#include "../../incl/mslib.h"
 
 char	*msh_getpath_line(char **envp)
 {
@@ -61,9 +61,11 @@ char	*msh_getpath_cmd(t_vars *vars, char *cmd)
 		path_cmd = NULL;
 		i++;
 	}
-	if (path_cmd == NULL)
+	if (access(cmd, X_OK) == 0)
+		path_cmd = ft_strdup(cmd);
+	else if (path_cmd == NULL)
 	{
-		printf("msh: %s: command not found\n", cmd);
+		msh_print_error(cmd, ": command not found\n");
 		return (NULL);
 	}
 	return (path_cmd);
