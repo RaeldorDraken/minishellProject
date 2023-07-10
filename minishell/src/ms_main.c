@@ -3,54 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   ms_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: eros-gir <eros-gir@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 10:05:31 by eros-gir          #+#    #+#             */
-/*   Updated: 2023/06/10 22:14:21 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:30:58 by eros-gir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../incl/mslib.h"
+#include "../incl/mslib.h"
+
+// void debug_cmd_list_builtins(t_cmd *first)
+// {
+// 	t_cmd *tmp;
+// 	int i;
+// 	int j;
+
+// 	i = 0;
+// 	j = 0;
+// 	tmp = first;
+// 	while(tmp)
+// 	{
+// 		//debugar token
+// 		printf("Token %d:\n", i);
+// 		printf("argc == %d\n", tmp->argc);
+// 		while(tmp->argv[j])
+// 		{
+// 			printf("El argc[%d] es |%s| y es built-in es = %d\n", j, tmp->argv[j], msh_str_is_built_in(tmp->argv[j]));
+// 			j++;
+// 		}
+// 		printf("\n");		
+// 		j = 0;
+// 		i++;
+// 		tmp = tmp->next;
+// 	}
+// }
 
 //Global variable
-int	msh_store_env_own_vars(t_vars vars, char **envp)
-{
-	int	env_length;
-
-	env_length = 0;
-	while (envp[env_length])
-		env_length++;
-	vars.own_env_vars = (char **)malloc(sizeof(char *) * env_length + 1);
-	if (!vars.own_env_vars)
-		return (0);
-	vars.own_env_vars[env_length] = 0;
-	env_length = 0;
-	while (envp[env_length])
-	{
-		vars.own_env_vars[env_length] = envp[env_length];
-		env_length++;
-	}
-	return (1);
-}
+int	g_return_status;
 
 void	msh_sigint_handler(int sig)
 {
 	if (sig != 0)
 	{
-		printf("\n");
 		rl_on_new_line();
-		//rl_replace_line("", 0);
 		rl_redisplay();
+		write(1, "  \n", 3);
+		//rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		g_return_status = 1;
 	}
 }
 
 void	msh_ignore_signals(t_vars *vars, int ac, char **av)
 {
-	if (ac > 1 || av[1] != NULL)
-	{
-		printf("ERROR: the program does not take any arguments!");
-		exit(1);
-	}
+	(void)ac;
+	(void)av;
+	// if (ac > 1 || av[1] != NULL)
+	// {
+	// 	ft_putendl_fd("ERROR: the program does not take any arguments!", 2);
+	// 	exit(1);
+	// }
 	vars->sigbool = 1;
 	signal(SIGINT, msh_sigint_handler);
 	signal(SIGTSTP, SIG_IGN);
@@ -60,27 +73,25 @@ void	msh_ignore_signals(t_vars *vars, int ac, char **av)
 //if sigexec == -1 is unset
 //if sigexec == 0 is set to error
 //if sigexec == 1 is set to success
-void	msh_set_vars(t_vars *vars, char *input, char **envp)
+void	msh_set_vars(t_vars *vars, char *input)
 {
 	vars->prompt = ft_calloc(ft_strlen(input) + 1, 1);
 	vars->inpli = NULL;
-	vars->envar = envp;
-	vars->sigexec = -1;
 	ft_strlcpy(vars->prompt, input, ft_strlen(input));
-	msh_acptd_comm(vars);
-}
 
-int g_return_status;
+}
 
 int	main(int ac, char **av, char **envp)
 {
 	t_vars	vars;
-	int		looping;
+	//int		looping; // ? This now is a var in struc controlloing the main looping execution
 
-	looping = 1;
+	vars.looping = 1;
 	g_return_status = 0;
 	msh_ignore_signals(&vars, ac, av);    //Comentar cuando testing
-	msh_set_vars(&vars, "msh %  ", envp);	
+	msh_set_vars(&vars, "msh %  ");
+	//free(vars.tokens);
+
 
 	// for (char **env = envp; *env != 0; env++)
   // {
@@ -88,88 +99,93 @@ int	main(int ac, char **av, char **envp)
   //   printf("%s\n", thisEnv);    
   // }
 
-	// ? Capute env vars to hold into own **own_env_vars inside struct s_vars
-	//printf("Vars in structure are\n");		
-	//if (!msh_store_env_own_vars(vars, envp))
-	//	return (-1);	
-	//printf("\n");
+	// ? Capute env vars to hold into own **envar_vars inside struct s_vars
+	if (!msh_store_env_own_vars(&vars, envp))
+		return (-1);	
 	// ? End of caputuring env vars
 
-	// Testing mode
-	//Test 1: Got to /minishel_tester  and do bash test.sh
-	//Test 2: Desde raiz: python3 -m minishell_test
-	//https://github.com/thallard/minishell_tester
-	//https://github.com/cacharle/minishell_test
-/*	if (ac >= 3 && !ft_strncmp(av[1], "-c", 3))
-	{
-		vars.inpli = av[2];
-		vars.inplen = ft_strlen(vars.inpli);
-		msh_getting_commands(&vars, envp);
-		exit(g_return_status);
-	}*/	
-	//End tesyting mode
+
+
+
+
+	// ! Testing mode
+	// Test 1: Got to /minishel_tester  and do bash test.sh
+	// Test 2: Desde raiz: python3 -m minishell_test
+	// https://github.com/thallard/minishell_tester
+	// https://github.com/cacharle/minishell_test
+	// if (ac >= 3 && !ft_strncmp(av[1], "-c", 3))
+	// {
+	// 	vars.inpli = av[2];
+	// 	vars.inplen = ft_strlen(vars.inpli);
+	// 	vars.input = msh_sanitize_input(vars.inpli);
+	// 	if (vars.input == NULL)
+	// 		exit(g_return_status);
+
+	// 	vars.cmd = msh_tokenize(&vars);		
+	// 	if (vars.cmd != NULL){
+	// 		msh_expander(&vars);
+	// 		msh_execute_start(&vars);
+	// 	}
+
+
+	// 	msh_free_cmd_list(vars.cmd); // ? free args
+	// 	msh_free_raw_array(vars.tokens); // ? free tokens
+	// 	free(vars.input); // ? free trimed input);
+	// 	msh_free_envars(&vars);
+	//   free(vars.prompt);
+	// 	exit(g_return_status);
+	// }
+	// ! End tesyting mode
 	
-	while (looping)
+	while (vars.looping)
 	{
-		looping = 1;
+		vars.looping = 1;
 		vars.inpli = readline(vars.prompt);
 		if (vars.inpli != NULL)
 		{
 			if (vars.inpli[0] == '\0')
 			{
 				free(vars.inpli);
+				continue ;
 			}
+			add_history(vars.inpli);
 			vars.input = msh_sanitize_input(vars.inpli);
 			if (vars.input == NULL)
 				continue ;
-			printf("\ninput sanitized is: |%s|\n", vars.input);
-			vars.cmd = msh_tokenize(&vars);
-			debug_cmd_list(vars.cmd);
-			if(ft_strcmp(vars.cmd->argv[0], "exit") == 0)
-				looping = 0;
+
+			vars.cmd = msh_tokenize(&vars);		
+			//msh_debug_cmd_list(vars.cmd); // debug tokens
+			//Execution integrando builtins a pipes
+			if (vars.cmd != NULL)
+			{
+				msh_expander(&vars);
+				if (!msh_errors_syntax(vars.cmd, NULL, 0))
+					msh_execute_start(&vars);
+			}
+
+			//msh_debug_cmd_list(vars.cmd);
+
+
+			// if(ft_strcmp(vars.cmd->argv[0], "exit") == 0)
+				// looping = 0; // ? This is now controlled by its own built in
 			//msh_split_cmd_argvs(input);
 
-			//vars.inplen = ft_strlen(vars.inpli);
-			
-			//printf("voy a necesitar %d tokens\n", how_many_tokens_i_need(input));
-			add_history(vars.inpli);
-			// ! Limpiar lista de comandos, con sus argvs, i argv i los tokens de la lista
-			// ! free_cmd_list();
-			// ! debriamos tambien poner vars.cmd = NULL
+			//vars.inplen = ft_strlen(vars.inpli);			
+			msh_free_cmd_list(vars.cmd); // ? free args
+			msh_free_raw_array(vars.tokens); // ? free tokens
+			free(vars.input); // ? free trimed input
 		}
-		//else
-		//	break ;
+		else
+			vars.looping = 0; // this is ctrl-D exits shell
+
 		//looping = msh_getting_commands(&vars, envp);
 		//msh_free_commands(&vars);
-		//? free local env vars - I think var structure is freed avobe for anything with a malloc. The following line has no effect using leaks --atExit -- ./minishell
-		// free(vars.own_env_vars);
-		
 }
-	//msh_clear_memory(&vars);
+	msh_free_envars(&vars);
+	free(vars.prompt);
+	system("leaks minishell"); //para comprobar leaks usar leaks minishell dentro  y quitar esta linea antes de entregar
+	return (g_return_status);
 }
 
-void debug_cmd_list(t_cmd *first)
-{
-	t_cmd *tmp;
-	int i;
-	int j;
 
-	i = 0;
-	j = 0;
-	tmp = first;
-	while(tmp)
-	{
-		//debugar token
-		printf("Token %d:\n", i);
-		printf("argc == %d\n", tmp->argc);
-		while(tmp->argv[j])
-		{
-			printf("argv[%d] = |%s|\n", j, tmp->argv[j]);
-			j++;
-		}
-		printf("is separator = %d\n", tmp->is_separator);
-		j = 0;
-		i++;
-		tmp = tmp->next;
-	}
-}
+

@@ -6,27 +6,11 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 22:07:56 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/10 20:16:46 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/07/09 19:06:49 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incl/mslib.h"
-
-
-//Cuantos separadores hay
-// << < >> > |
-// hola "que tal '" ''' como estas  -> 1
-// hola que tal "|" como estas -> 1
-// hola que tal '"|"' como estas -> 1
-// hola que tal << como estas -> 3
-// <<<<< -> 3
-// << << < -> 3
-
-//hola    que tal "'      "      "' "  
-
-
-
-
 
 char	*msh_clean_irrelveant_spaces_in_input(char *input)
 {
@@ -66,8 +50,10 @@ int	msh_malformed_quotes(char *input)
 	msh_init_quotes_struct(&quotes);
 	while (input[++c])
 		msh_update_quotes_status(&quotes, input[c]);
-	if (quotes.quote == 1 || quotes.miniquote == 1){
-		write(2, "Malformed input. Please close your quotes\n", 42);
+	if (quotes.quote == 1 || quotes.miniquote == 1)
+	{
+		//write(2, "Malformed input. Please close your quotes\n", 42);
+		ft_putendl_fd("Minishell: Malformed input, please close your quotes", 2);
 		return (1);
 	}
 	return (0);
@@ -76,11 +62,17 @@ int	msh_malformed_quotes(char *input)
 // ! Entry point
 char	*msh_sanitize_input(char *input)
 {
-	printf("input UNsanitized is: |%s|\n\n", input);
+	char	*trimmed_input;
+
 	if (msh_malformed_quotes(input))
+	{
+		free(input);
 		return (NULL);
-	input = ft_strtrim(input, " ");
-	input = msh_clean_irrelveant_spaces_in_input(input);
+	}
+	trimmed_input = ft_strtrim(input, " ");
+	// ! comment for testing
+	free(input);
+	input = msh_clean_irrelveant_spaces_in_input(trimmed_input);
 	return (input);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rabril-h <rabril-h@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 17:21:49 by rabril-h          #+#    #+#             */
-/*   Updated: 2023/06/10 22:57:14 by rabril-h         ###   ########.fr       */
+/*   Updated: 2023/06/18 19:26:09 by rabril-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,21 @@
  * @param quote_struct 
  */
 
-void	msh_print_element(char *input, int start, int end)
-{
-	printf("\nstart es %d y end es %d\n", start, end);
-
-	while (start <= end)
-	{
-		write(1, &input[start], 1);
-		start++;
-	}
-	printf("\n");
-}
-
 void	msh_init_quotes_struct(t_quotes *quote_struct)
 {
 	quote_struct->quote = 0;
 	quote_struct->miniquote = 0;
 }
+
+/**
+ * @brief Functions that update the status of the parsed quotes
+ * 
+ * ? quote -> comillas normales
+ * ? miniquote -> comillas simples
+ * 
+ * @param quotes
+ * @param char c 
+ */
 
 void	msh_update_quotes_status(t_quotes *quotes, char c)
 {
@@ -50,6 +48,15 @@ void	msh_update_quotes_status(t_quotes *quotes, char c)
 	else if (c == '\'' && quotes->miniquote == 1)
 		quotes->miniquote = 0;
 }
+
+/**
+ * @brief Functions that generates
+ *  a string char by char allocating the right memory
+ * 
+ * 
+ * @param str *
+ * @param ch
+ */
 
 char	*msh_strjoinchr(char *str, char ch)
 {
@@ -66,7 +73,7 @@ char	*msh_strjoinchr(char *str, char ch)
 	}	
 	copy = (char *)malloc(sizeof(char) * ft_strlen(str) + 2);
 	if (!copy)
-		return (free_return_null(copy));
+		return (msh_free_return_null(copy));
 	while (str[c])
 	{
 		copy[c] = str[c];
@@ -78,32 +85,6 @@ char	*msh_strjoinchr(char *str, char ch)
 	return (copy);
 }
 
-char *free_return_null(char *ptr)
-{
-	free(ptr);
-	return (NULL);
-}
 
-int	no_quotes(t_quotes *quotes)
-{
-	if (!quotes->quote && !quotes->miniquote)
-		return (1);
-	return (0);
-}
 
-int	is_startarg(char *input, int c, t_quotes *quotes)
-{
-	if (c > 0 && input[c] != ' ' && input[c - 1] == ' '
-		&& no_quotes(quotes))
-		return (1);
-	return (0);
-}
-
-int	is_endarg(char *input, int c, t_quotes *quotes)
-{
-	if (input[c] != ' ' && ((input[c + 1] == ' '
-				&& no_quotes(quotes)) || input[c + 1] == '\0' ))
-		return (1);
-	return (0);
-}
 
